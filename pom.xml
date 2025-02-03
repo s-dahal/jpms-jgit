@@ -1,0 +1,345 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>dev.ikm.build</groupId>
+        <artifactId>parent</artifactId>
+        <version>1.55.0</version>
+        <relativePath></relativePath>
+    </parent>
+
+    <groupId>dev.ikm.jpms</groupId>
+    <artifactId>jgit</artifactId>
+    <version>${core.artifact.version}-${core.artifact.release}</version>
+
+    <properties>
+        <!-- change release here-->
+        <core.artifact.version>7.0.0.202409031743-r</core.artifact.version>
+        <core.artifact.release>r1</core.artifact.release>
+
+        <!-- transitive dependency versions -->
+        <JavaEWAH.version>1.2.3</JavaEWAH.version>
+        <slf4j-api.version>1.7.36</slf4j-api.version>
+        <commons-codec.version>1.17.0</commons-codec.version>
+
+        <maven.moditect.plugin>1.2.2.Final</maven.moditect.plugin>
+    </properties>
+
+    <licenses>
+        <license>
+            <name>Eclipse Distribution License (New BSD License)</name>
+            <comments>
+                All rights reserved.
+
+                Redistribution and use in source and binary forms, with or
+                without modification, are permitted provided that the following
+                conditions are met:
+
+                - Redistributions of source code must retain the above copyright
+                notice, this list of conditions and the following disclaimer.
+
+                - Redistributions in binary form must reproduce the above
+                copyright notice, this list of conditions and the following
+                disclaimer in the documentation and/or other materials provided
+                with the distribution.
+
+                - Neither the name of the Eclipse Foundation, Inc. nor the
+                names of its contributors may be used to endorse or promote
+                products derived from this software without specific prior
+                written permission.
+
+                THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+                CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+                INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+                OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+                ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+                CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+                SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+                NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+                LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+                CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+                STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+                ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+                ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+            </comments>
+        </license>
+    </licenses>
+
+    <!-- transitive dependencies of the repackaged artifact -->
+    <dependencies>
+        <dependency>
+            <groupId>com.googlecode.javaewah</groupId>
+            <artifactId>JavaEWAH</artifactId>
+            <version>${JavaEWAH.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j-api.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>${commons-codec.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>${basedir}/</directory>
+                <includes>
+                    <include>LICENSE.txt</include>
+                </includes>
+            </resource>
+        </resources>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.moditect</groupId>
+                    <artifactId>moditect-maven-plugin</artifactId>
+                    <version>${maven.moditect.plugin}</version>
+                </plugin>
+
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>sources</id>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <phase>prepare-package</phase>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.eclipse.jgit</groupId>
+                                    <artifactId>org.eclipse.jgit</artifactId>
+                                    <version>${core.artifact.version}</version>
+                                    <classifier>sources</classifier>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.jgit</groupId>
+                                    <artifactId>org.eclipse.jgit</artifactId>
+                                    <version>${core.artifact.version}</version>
+                                    <classifier>javadoc</classifier>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-artifacts</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>attach-artifact</goal>
+                        </goals>
+                        <configuration>
+                            <artifacts>
+                                <artifact>
+                                    <file>${project.build.directory}/dependency/org.eclipse.jgit-${core.artifact.version}-sources.jar</file>
+                                    <type>jar</type>
+                                    <classifier>sources</classifier>
+                                </artifact>
+                                <artifact>
+                                    <file>${project.build.directory}/dependency/org.eclipse.jgit-${core.artifact.version}-javadoc.jar</file>
+                                    <type>jar</type>
+                                    <classifier>javadoc</classifier>
+                                </artifact>
+                            </artifacts>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.moditect</groupId>
+                <artifactId>moditect-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>add-module-infos</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>add-module-info</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/moditect</outputDirectory>
+                            <overwriteExistingFiles>true</overwriteExistingFiles>
+                            <modules>
+                                <module>
+                                    <artifact>
+                                        <groupId>org.eclipse.jgit</groupId>
+                                        <artifactId>org.eclipse.jgit</artifactId>
+                                        <version>${core.artifact.version}</version>
+                                    </artifact>
+                                    <moduleInfoSource>
+                                        module dev.ikm.jpms.jgit {
+                                            requires org.apache.commons.codec;
+                                            requires org.slf4j;
+
+                                            requires transitive com.googlecode.javaewah;
+                                            requires transitive java.management;
+                                            requires transitive java.security.jgss;
+                                            requires transitive java.sql;
+                                            requires transitive java.xml;
+
+                                            exports org.eclipse.jgit.annotations;
+                                            exports org.eclipse.jgit.api;
+                                            exports org.eclipse.jgit.api.errors;
+                                            exports org.eclipse.jgit.attributes;
+                                            exports org.eclipse.jgit.blame;
+                                            exports org.eclipse.jgit.diff;
+                                            exports org.eclipse.jgit.dircache;
+                                            exports org.eclipse.jgit.errors;
+                                            exports org.eclipse.jgit.events;
+                                            exports org.eclipse.jgit.fnmatch;
+                                            exports org.eclipse.jgit.gitrepo;
+                                            exports org.eclipse.jgit.gitrepo.internal;
+                                            exports org.eclipse.jgit.hooks;
+                                            exports org.eclipse.jgit.ignore;
+                                            exports org.eclipse.jgit.ignore.internal;
+                                            exports org.eclipse.jgit.internal;
+                                            exports org.eclipse.jgit.internal.diff;
+                                            exports org.eclipse.jgit.internal.diffmergetool;
+                                            exports org.eclipse.jgit.internal.fsck;
+                                            exports org.eclipse.jgit.internal.revwalk;
+                                            exports org.eclipse.jgit.internal.storage.commitgraph;
+                                            exports org.eclipse.jgit.internal.storage.dfs;
+                                            exports org.eclipse.jgit.internal.storage.file;
+                                            exports org.eclipse.jgit.internal.storage.io;
+                                            exports org.eclipse.jgit.internal.storage.memory;
+                                            exports org.eclipse.jgit.internal.storage.pack;
+                                            exports org.eclipse.jgit.internal.storage.reftable;
+                                            exports org.eclipse.jgit.internal.submodule;
+                                            exports org.eclipse.jgit.internal.transport.connectivity;
+                                            exports org.eclipse.jgit.internal.transport.http;
+                                            exports org.eclipse.jgit.internal.transport.parser;
+                                            exports org.eclipse.jgit.internal.transport.ssh;
+                                            exports org.eclipse.jgit.internal.util;
+                                            exports org.eclipse.jgit.lib;
+                                            exports org.eclipse.jgit.lib.internal;
+                                            exports org.eclipse.jgit.logging;
+                                            exports org.eclipse.jgit.merge;
+                                            exports org.eclipse.jgit.nls;
+                                            exports org.eclipse.jgit.notes;
+                                            exports org.eclipse.jgit.patch;
+                                            exports org.eclipse.jgit.revplot;
+                                            exports org.eclipse.jgit.revwalk;
+                                            exports org.eclipse.jgit.revwalk.filter;
+                                            exports org.eclipse.jgit.storage.file;
+                                            exports org.eclipse.jgit.storage.pack;
+                                            exports org.eclipse.jgit.submodule;
+                                            exports org.eclipse.jgit.transport;
+                                            exports org.eclipse.jgit.transport.http;
+                                            exports org.eclipse.jgit.transport.resolver;
+                                            exports org.eclipse.jgit.treewalk;
+                                            exports org.eclipse.jgit.treewalk.filter;
+                                            exports org.eclipse.jgit.util;
+                                            exports org.eclipse.jgit.util.io;
+                                            exports org.eclipse.jgit.util.sha1;
+                                            exports org.eclipse.jgit.util.time;
+                                        }
+                                    </moduleInfoSource>
+                                </module>
+                            </modules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>rename-sources</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <echo message="renaming sources file" />
+                                <copy file="${project.build.directory}/dependency/org.eclipse.jgit-${core.artifact.version}-sources.jar"
+                                      tofile="${project.build.directory}/${project.artifactId}-${core.artifact.version}-${core.artifact.release}-sources.jar" />
+                            </target>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>rename-javadoc</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <echo message="renaming javadoc file" />
+                                <copy file="${project.build.directory}/dependency/org.eclipse.jgit-${core.artifact.version}-javadoc.jar"
+                                      tofile="${project.build.directory}/${project.artifactId}-${core.artifact.version}-${core.artifact.release}-javadoc.jar" />
+                            </target>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <phase>prepare-package</phase>
+                        <configuration>
+                            <target>
+                                <echo message="unzipping file"/>
+                                <unzip src="${project.build.directory}/moditect/org.eclipse.jgit-${core.artifact.version}.jar"
+                                       dest="${project.build.directory}/classes/"/>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <phase>prepare-package</phase>
+                        <id>remove-signature</id>
+                        <configuration>
+                            <target>
+                                <echo message="Deleting .RSA and .SF files"/>
+                                <delete>
+                                    <fileset dir="${project.build.outputDirectory}/META-INF" includes="ECLIPSE_*" />
+                                </delete>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <id>javadoc-package</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <classifier>javadoc</classifier>
+                            <classesDirectory>${project.build.directory}/apidocs</classesDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin> -->
+        </plugins>
+    </build>
+</project>
