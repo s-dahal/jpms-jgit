@@ -33,7 +33,7 @@ jobs:
           RC_VERSION=$(./mvnw help:evaluate -D'expression=core.artifact.release' -q -D'forceStdout')
           RC_NUMBER=$(echo "$RC_VERSION" | grep -o -E '[0-9]+')
           NEW_RC_NUMBER=$((1 + $RC_NUMBER))
-          echo "$CORE_VERSION-$NEW_RC_NUMBER"
+          echo "$CORE_VERSION-r$NEW_RC_NUMBER"
           exit 1
 
 
