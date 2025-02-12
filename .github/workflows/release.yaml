@@ -27,6 +27,17 @@ jobs:
         with:
           token: ${{secrets.IKMDEVOPS_PAT_TOKEN}}
 
+      - name: Extrapolate IKM Release Property
+        run: |
+          CORE_VERSION=$(mvn help:evaluate -D'expression=core.artifact.version' -q -D'forceStdout')
+          RC_VERSION=$(mvn help:evaluate -D'expression=core.artifact.release' -q -D'forceStdout')
+          RC_NUMBER=$(echo "$RC_VERSION" | grep -o -E '[0-9]+')
+          NEW_RC_NUMBER=$(1 + RC_NUMBER)
+          echo "$CORE_VERSION-$RC_NUMBER"
+          exit 1
+
+
+
       - name: Shared Release Action
         uses: ikmdev/maven-semver-release-action@v2
         with:
