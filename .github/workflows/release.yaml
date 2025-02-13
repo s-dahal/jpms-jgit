@@ -28,12 +28,13 @@ jobs:
           token: ${{secrets.IKMDEVOPS_PAT_TOKEN}}
 
       - name: Extrapolate IKM Release Property
+        id: newDevVersion
         run: |
           CORE_VERSION=$(./mvnw help:evaluate -D'expression=core.artifact.version' -q -D'forceStdout')
           RC_VERSION=$(./mvnw help:evaluate -D'expression=core.artifact.release' -q -D'forceStdout')
           RC_NUMBER=$(echo "$RC_VERSION" | grep -o -E '[0-9]+')
           NEW_RC_NUMBER=$((1 + $RC_NUMBER))
-          echo "$CORE_VERSION-r$NEW_RC_NUMBER"
+          echo "DEV_VERSION=$CORE_VERSION-r$NEW_RC_NUMBER-SNAPSHOT" >> $GITHUB_OUTPUT
           exit 1
 
 
@@ -43,3 +44,4 @@ jobs:
         with:
           version_type: 'pre-release'
           github_token: ${{secrets.GITHUB_TOKEN}}
+          release_version: ' -DdevelopmentVersion=${{steps.newDevVersion.outputs.DEV_VERSION}}'
