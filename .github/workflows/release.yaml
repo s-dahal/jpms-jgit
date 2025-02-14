@@ -27,16 +27,16 @@ jobs:
         with:
           token: ${{secrets.IKMDEVOPS_PAT_TOKEN}}
 
-      - name: Extrapolate IKM Release Property
+      - name: Verify Version
         run: |
-          CORE_VERSION=$(./mvnw help:evaluate -D'expression=core.artifact.version' -q -D'forceStdout')
-          RC_VERSION=$(./mvnw help:evaluate -D'expression=core.artifact.release' -q -D'forceStdout')
-          RC_NUMBER=$(echo "$RC_VERSION" | grep -o -E '[0-9]+')
-          NEW_RC_NUMBER=$((1 + $RC_NUMBER))
-          echo "$CORE_VERSION-r$NEW_RC_NUMBER"
-          exit 1
-
-
+            CURRENT_VERSION=$(./mvnw help:evaluate -D'expression=project.version' -q -D'forceStdout')
+            CORE_VERSION=$(./mvnw help:evaluate -D'expression=core.artifact.version' -q -D'forceStdout')
+            if [[ "$CURRENT_VERSION" != *"$CORE_VERSION"* ]]; then
+               echo "::error::Current Version Does Not Match Core Version"
+               echo "::error::Current Version: $CURRENT_VERSION"
+               echo "::error::Core Version: $CORE_VERSION"
+               exit 1
+            fi
 
       - name: Shared Release Action
         uses: ikmdev/maven-semver-release-action@v2
