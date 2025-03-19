@@ -1,5 +1,5 @@
-# jpms-jgit
-The jpms-jgit repository is dedicated to making the jgit module compliant with the Java Platform Module System (JPMS). This compliance ensures that the jgit library can be seamlessly integrated into modular Java applications, leveraging the benefits of JPMS such as improved encapsulation, security, and maintainability.
+# jpms-activej-bytebuf
+The jpms-activej-bytebuf repository is dedicated to making the activej-bytebuf module compliant with the Java Platform Module System (JPMS). This compliance ensures that the activej-bytebuf library can be seamlessly integrated into modular Java applications, leveraging the benefits of JPMS such as improved encapsulation, security, and maintainability.
 
 ## Features
 
@@ -16,17 +16,17 @@ Add the following dependency to your pom.xml:
 ```xml
 <dependency>
     <groupId>dev.ikm.jpms</groupId>
-	<artifactId>jgit</artifactId>
-    <version>${latest-jpms-jgit-version}</version>
+	<artifactId>activej-bytebuf</artifactId>
+    <version>${latest-jpms-activej-bytebuf-version}</version>
 </dependency>
 ```
 
 Add the following dependency to your build.gradle:
 ```groovy
-implementation 'dev.ikm.jpms:antlr4-runtime:${latest-jpms-jgit-version}'
+implementation 'dev.ikm.jpms:jgit:${latest-jpms-activej-bytebuf-version}'
 ```
 
-In your module descriptor (module-info.java), declare the dependency on the jpms-jgit module:
+In your module descriptor (module-info.java), declare the dependency on the jpms-activej-bytebuf module:
 
 ```java
 module your.module.name {
