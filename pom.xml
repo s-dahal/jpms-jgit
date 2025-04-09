@@ -12,7 +12,7 @@
 
     <groupId>dev.ikm.jpms</groupId>
     <artifactId>jgit</artifactId>
-    <version>7.2.0.202503040940-r-r3</version>
+    <version>7.2.0.202503040940-r-r4-SNAPSHOT</version>
 
     <properties>
         <!-- change release here-->
