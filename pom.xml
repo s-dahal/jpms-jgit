@@ -12,17 +12,17 @@
 
     <groupId>dev.ikm.jpms</groupId>
     <artifactId>jgit</artifactId>
-    <version>7.1.0.202411261347-r-r2-SNAPSHOT</version>
+    <version>7.2.0.202503040940-r-r3-SNAPSHOT</version>
 
     <properties>
         <!-- change release here-->
         <core.artifact.version>7.2.0.202503040940-r</core.artifact.version>
-        <core.artifact.release>r2</core.artifact.release>
+        <core.artifact.release>r3</core.artifact.release>
 
         <!-- transitive dependency versions -->
         <JavaEWAH.version>1.2.3</JavaEWAH.version>
-        <slf4j-api.version>1.7.36</slf4j-api.version>
-        <commons-codec.version>1.17.0</commons-codec.version>
+        <slf4j-api.version>2.0.17</slf4j-api.version>
+        <commons-codec.version>1.18.0</commons-codec.version>
 
         <maven.moditect.plugin>1.2.2.Final</maven.moditect.plugin>
     </properties>
