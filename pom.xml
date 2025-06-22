@@ -12,12 +12,13 @@
 
     <groupId>dev.ikm.jpms</groupId>
     <artifactId>jgit</artifactId>
+    <name>jgit</name>
     <version>7.2.0.202503040940-r-r5-SNAPSHOT</version>
 
     <properties>
         <!-- change release here-->
         <core.artifact.version>7.2.0.202503040940-r</core.artifact.version>
-        <core.artifact.release></core.artifact.release>
+        <core.artifact.release>r5</core.artifact.release>
 
         <!-- transitive dependency versions -->
         <JavaEWAH.version>1.2.3</JavaEWAH.version>
