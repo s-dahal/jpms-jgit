@@ -13,7 +13,7 @@
     <groupId>dev.ikm.jpms</groupId>
     <artifactId>jgit</artifactId>
     <name>jgit</name>
-    <version>7.2.0.202503040940-r-r5-SNAPSHOT</version>
+    <version>7.2.0.202503040940-r-r5</version>
 
     <properties>
         <!-- change release here-->
